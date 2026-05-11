@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF&E Schedule - Google Sheets Template</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .instructions {
+            padding: 2rem;
+            background: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .instructions h2 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #3b82f6;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .csv-section {
+            padding: 2rem;
+        }
+
+        .csv-section h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sheet-indicator {
+            background: #3b82f6;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .csv-container {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .csv-header {
+            background: #374151;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .csv-title {
+            color: white;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: #2563eb;
+        }
+
+        .csv-content {
+            color: #e5e7eb;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8rem;
+            padding: 1rem;
+            background: #111827;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.4;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .formatting-tips {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .formatting-tips h4 {
+            color: #92400e;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formatting-tips ul {
+            color: #92400e;
+            padding-left: 1.5rem;
+        }
+
+        .formatting-tips li {
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-section {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .formula-section h4 {
+            color: #047857;
+            margin-bottom: 1rem;
+        }
+
+        .formula-code {
+            background: #064e3b;
+            color: #a7f3d0;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FF&amp;E Schedule Template</h1>
+            <p>Professional Google Sheets Template - Ready to Import</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✅ Copied to clipboard! Now paste into Google Sheets.
+        </div>
+
+        <div class="instructions">
+            <h2>📋 How to Import into Google Sheets</h2>
+            <ol class="step-list">
+                <li>
+                    <strong>Create a new Google Sheets document</strong><br>
+                    Go to sheets.google.com and click "Blank" to create a new spreadsheet.
+                </li>
+                <li>
+                    <strong>Copy the CSV data below</strong><br>
+                    Click the "Copy" button next to each sheet section to copy the data to your clipboard.
+                </li>
+                <li>
+                    <strong>Paste into Google Sheets</strong><br>
+                    Select cell A1 in your Google Sheet and paste (Ctrl+V or Cmd+V).
+                </li>
+                <li>
+                    <strong>Create multiple sheets</strong><br>
+                    Add new sheets for "Room Summary" and "Vendor List" using the + button at the bottom.
+                </li>
+                <li>
+                    <strong>Apply formatting</strong><br>
+                    Use the formatting tips below to make your schedule look professional.
+                </li>
+                <li>
+                    <strong>Add formulas</strong><br>
+                    Copy the formulas provided to automatically calculate totals and summaries.
+                </li>
+            </ol>
+        </div>
+
+        <!-- Main Schedule Sheet -->
+        <div class="csv-section">
+            <h3>
+                Main FF&amp;E Schedule
+                <span class="sheet-indicator">Sheet 1</span>
+            </h3>
+            <div class="csv-container">
+                <div class="csv-header">
+                    <span class="csv-title">Detailed_FFE_Schedule.csv</span>
+                    <button class="copy-btn" onclick="copyToClipboard('mainSchedule', event)">Copy CSV Data</button>
+                </div>
+                <div class="csv-content" id="mainSchedule">PROJECT INFO,,,,,,
+Project Name,Modern Residential Renovation,,,,
+Client,Smith Family Residence,,,,,
+Date,September 27 2025,,,,,
+Designer,Interior Design Studio,,,,,
+Revision,Rev. 03,,,,,
+,,,,,,
+ROOM,CATEGORY,ITEM_CODE,DESCRIPTION,VENDOR,SPECIFICATIONS,QTY,UNIT_PRICE,TOTAL_PRICE,NOTES,LEAD_TIME
+LIVING ROOM,SEATING,LR-001,Modern Sectional Sofa,West Elm,"Charcoal performance fabric, left chaise configuration, 108"" W x 75"" D x 32"" H",1,2199,2199,Custom order,8-10 weeks
+LIVING ROOM,SEATING,LR-002,Accent Chair with Ottoman,CB2,"Velvet upholstery in sage green, swivel base, 28"" W x 30"" D x 31"" H",2,899,1798,In stock,3-4 weeks
+LIVING ROOM,TABLES,LR-003,Live Edge Coffee Table,Room & Board,"Solid walnut with steel legs, 48"" L x 24"" W x 16"" H",1,1299,1299,Made to order,6-8 weeks
+LIVING ROOM,TABLES,LR-004,Nesting Side Tables,Article,"Brass finish with marble tops, set of 2",1,449,449,In stock,2-3 weeks
+LIVING ROOM,LIGHTING,LR-005,Pendant Light Cluster,Design Within Reach,"Tom Dixon Beat lights, brass finish, set of 3 varying sizes",1,2850,2850,Special order,10-12 weeks
+LIVING ROOM,LIGHTING,LR-006,Floor Lamp,Rejuvenation,"Arc floor lamp with linen shade, antique brass, 65"" H",2,399,798,In stock,1-2 weeks
+LIVING ROOM,ACCESSORIES,LR-007,Area Rug,West Elm,"Hand-knotted wool in navy/cream pattern, 9' x 12'",1,899,899,Custom size,4-6 weeks
+LIVING ROOM,ACCESSORIES,LR-008,Throw Pillows,CB2,"Velvet and linen mix, assorted colors and textures",6,45,270,In stock,1 week
+LIVING ROOM,WINDOW TREATMENTS,LR-009,Custom Drapery,Local Workroom,"Linen panels with blackout lining, motorized track",1,1200,1200,Made to measure,3-4 weeks
+,,,,,,,,,,
+DINING ROOM,FURNITURE,DR-001,Extendable Dining Table,Crate & Barrel,"White oak with steel base, extends from 72"" to 96"", seats 6-8",1,1999,1999,In stock,4-6 weeks
+DINING ROOM,FURNITURE,DR-002,Upholstered Dining Chairs,Williams Sonoma,"Linen upholstery in natural, oak legs, 18"" W x 22"" D x 32"" H",6,329,1974,In stock,2-3 weeks
+DINING ROOM,FURNITURE,DR-003,Sideboard,Article,"Walnut veneer with fluted doors, 71"" W x 18"" D x 30"" H",1,899,899,In stock,3-4 weeks
+DINING ROOM,LIGHTING,DR-004,Statement Chandelier,Lumens,"Modern brass and glass, 32"" diameter, dimmable LED",1,1299,1299,Special order,6-8 weeks
+DINING ROOM,ACCESSORIES,DR-005,Artwork - Abstract Print,Minted,"Framed giclée print, 36"" x 48"", walnut frame",1,299,299,Custom framing,2-3 weeks
+DINING ROOM,ACCESSORIES,DR-006,Decorative Bowl Set,CB2,"Ceramic in cream glaze, set of 3 varying sizes",1,89,89,In stock,1 week
+,,,,,,,,,,
+MASTER BEDROOM,FURNITURE,MB-001,Platform Bed Frame,Blu Dot,"King size, walnut veneer with steel legs, includes headboard",1,1599,1599,In stock,4-6 weeks
+MASTER BEDROOM,FURNITURE,MB-002,Nightstands,CB2,"Two-drawer, walnut finish, 24"" W x 18"" D x 24"" H",2,399,798,In stock,2-3 weeks
+MASTER BEDROOM,FURNITURE,MB-003,Dresser with Mirror,West Elm,"6-drawer dresser in walnut, 58"" W x 18"" D x 32"" H, includes mirror",1,1199,1199,In stock,3-4 weeks
+MASTER BEDROOM,SEATING,MB-004,Upholstered Bench,Pottery Barn,"Linen upholstery in cream, 48"" W x 18"" D x 18"" H",1,549,549,In stock,2-3 weeks
+MASTER BEDROOM,LIGHTING,MB-005,Table Lamps,Rejuvenation,"Ceramic base with linen shade, 24"" H",2,199,398,In stock,1-2 weeks
+MASTER BEDROOM,ACCESSORIES,MB-006,Area Rug,Rugs USA,"Jute in natural color, 8' x 10'",1,299,299,In stock,1-2 weeks
+MASTER BEDROOM,WINDOW TREATMENTS,MB-007,Roman Shades,Smith & Noble,"Linen in soft white, cordless, custom sized",3,189,567,Made to measure,3-4 weeks
+,,,,,,,,,,
+GUEST BEDROOM,FURNITURE,GB-001,Queen Bed Frame,Article,"Upholstered headboard in grey linen, platform style",1,699,699,In stock,3-4 weeks
+GUEST BEDROOM,FURNITURE,GB-002,Nightstand,West Elm,"Single drawer, white oak finish, 20"" W x 16"" D x 24"" H",1,299,299,In stock,2-3 weeks
+GUEST BEDROOM,FURNITURE,GB-003,Dresser,IKEA,"4-drawer in white, 47"" W x 16"" D x 29"" H",1,179,179,In stock,1 week
+GUEST BEDROOM,SEATING,GB-004,Reading Chair,Target,"Accent chair in grey fabric with wood legs",1,249,249,In stock,1-2 weeks
+GUEST BEDROOM,LIGHTING,GB-005,Table Lamp,Target,"Modern design with white shade, 22"" H",1,49,49,In stock,1 week
+GUEST BEDROOM,ACCESSORIES,GB-006,Throw Blanket,West Elm,"Chunky knit in cream, 50"" x 60""",1,79,79,In stock,1 week
+,,,,,,,,,,
+HOME OFFICE,FURNITURE,HO-001,Standing Desk,UPLIFT Desk,"Bamboo desktop with electric base, 60"" x 30""",1,699,699,Made to order,2-3 weeks
+HOME OFFICE,FURNITURE,HO-002,Ergonomic Chair,Herman Miller,"Aeron chair, size B, graphite frame",1,1395,1395,In stock,1-2 weeks
+HOME OFFICE,STORAGE,HO-003,Bookshelf,CB2,"5-shelf unit in walnut, 32"" W x 13"" D x 72"" H",1,399,399,In stock,2-3 weeks
+HOME OFFICE,LIGHTING,HO-004,Desk Lamp,Pottery Barn,"Adjustable brass task lamp with dimmer",1,129,129,In stock,1-2 weeks
+HOME OFFICE,ACCESSORIES,HO-005,Desk Organizer Set,West Elm,"Leather desk accessories in cognac, set of 5",1,99,99,In stock,1 week</div>
+            </div>
+        </div>
+
+        <!-- Room Summary Sheet -->
+        <div class="csv-section">
+            <h3>
+                Room Summary
+                <span class="sheet-indicator">Sheet 2</span>
+            </h3>
+            <div class="csv-container">
+                <div class="csv-header">
+                    <span class="csv-title">Room_Summary.csv</span>
+                    <button class="copy-btn" onclick="copyToClipboard('roomSummary', event)">Copy CSV Data</button>
+                </div>
+                <div class="csv-content" id="roomSummary">ROOM SUMMARY,,,,
+Room Name,Number of Items,Subtotal,Percentage of Total,Status
+LIVING ROOM,9,12762,35.2%,In Progress
+DINING ROOM,6,6559,18.1%,Approved
+MASTER BEDROOM,7,5409,14.9%,Approved
+GUEST BEDROOM,6,1554,4.3%,Pending
+HOME OFFICE,5,2721,7.5%,In Progress
+KITCHEN,8,7245,20.0%,Pending
+,,,,
+CATEGORY SUMMARY,,,,
+Category,Total Cost,Percentage,Items Count,Average Cost
+FURNITURE,18567,51.2%,15,1237.80
+LIGHTING,6473,17.8%,8,809.13
+SEATING,4695,12.9%,7,670.71
+ACCESSORIES,3244,8.9%,12,270.33
+WINDOW TREATMENTS,1967,5.4%,4,491.75
+STORAGE,1399,3.9%,2,699.50
+,,,,
+VENDOR SUMMARY,,,,
+Vendor Name,Total Orders,Total Cost,Percentage,Lead Time
+West Elm,8,6543,18.0%,2-4 weeks
+CB2,6,3421,9.4%,2-3 weeks
+Article,3,1747,4.8%,3-4 weeks
+Pottery Barn,3,807,2.2%,2-3 weeks
+Room & Board,2,1299,3.6%,6-8 weeks
+Design Within Reach,1,2850,7.9%,10-12 weeks
+Rejuvenation,3,1325,3.7%,1-2 weeks
+Others,12,18258,50.4%,Varies</div>
+            </div>
+        </div>
+
+        <!-- Vendor List Sheet -->
+        <div class="csv-section">
+            <h3>
+                Vendor Contact List
+                <span class="sheet-indicator">Sheet 3</span>
+            </h3>
+            <div class="csv-container">
+                <div class="csv-header">
+                    <span class="csv-title">Vendor_List.csv</span>
+                    <button class="copy-btn" onclick="copyToClipboard('vendorList', event)">Copy CSV Data</button>
+                </div>
+                <div class="csv-content" id="vendorList">VENDOR CONTACT INFORMATION,,,,,,,
+Vendor Name,Contact Person,Phone,Email,Address,Website,Account Number,Payment Terms
+West Elm,Sarah Johnson,(555) 234-5678,sarah.j@westelm.com,"1 Pottery Barn Place, Brooklyn NY 11222",westelm.com,WE-12345,Net 30
+CB2,Michael Chen,(555) 345-6789,mchen@cb2.com,"1250 Techny Road, Northbrook IL 60062",cb2.com,CB-67890,Net 30
+Article,Emma Rodriguez,(555) 456-7890,emma@article.com,"1011 W Fulton Market, Chicago IL 60607",article.com,AR-24680,Net 15
+Room & Board,David Kim,(555) 567-8901,dkim@roomandboard.com,"4600 Olson Memorial Hwy, Minneapolis MN 55422",roomandboard.com,RB-13579,Net 30
+Design Within Reach,Lisa Wang,(555) 678-9012,lwang@dwr.com,"5 East 19th Street, New York NY 10003",dwr.com,DWR-97531,Net 45
+Pottery Barn,James Miller,(555) 789-0123,jmiller@potterybarn.com,"3250 Van Ness Ave, San Francisco CA 94109",potterybarn.com,PB-86420,Net 30
+Rejuvenation,Anna Thompson,(555) 890-1234,athompson@rejuvenation.com,"1100 SE Grand Ave, Portland OR 97214",rejuvenation.com,REJ-75319,Net 30
+Lumens,Carlos Garcia,(555) 901-2345,cgarcia@lumens.com,"25 Business Park Drive, Branford CT 06405",lumens.com,LUM-64208,Net 30
+Blu Dot,Rachel Park,(555) 012-3456,rpark@bludot.com,"929 W 18th Street, Minneapolis MN 55405",bludot.com,BD-53197,Net 30
+Crate & Barrel,Tom Wilson,(555) 123-4567,twilson@crateandbarrel.com,"1250 Techny Road, Northbrook IL 60062",crateandbarrel.com,CB-42086,Net 30
+Williams Sonoma,Jennifer Lee,(555) 234-5678,jlee@williams-sonoma.com,"3250 Van Ness Ave, San Francisco CA 94109",williams-sonoma.com,WS-31975,Net 30
+Minted,Alex Foster,(555) 345-6789,afoster@minted.com,"747 Front St, San Francisco CA 94111",minted.com,MIN-20864,Prepaid
+IKEA,Maria Santos,(555) 456-7890,msantos@ikea.com,"420 Alan Wood Rd, Conshohocken PA 19428",ikea.com,IK-19753,Prepaid
+Target,Ryan Cooper,(555) 567-8901,rcooper@target.com,"1000 Nicollet Mall, Minneapolis MN 55403",target.com,TGT-08642,Net 15
+UPLIFT Desk,Sophie Brown,(555) 678-9012,sbrown@upliftdesk.com,"2713 Old Spanish Trail, Houston TX 77054",upliftdesk.com,UP-97531,Net 30
+Herman Miller,Nathan Davis,(555) 789-0123,ndavis@hermanmiller.com,"855 East Main Ave, Zeeland MI 49464",hermanmiller.com,HM-86420,Net 45
+Rugs USA,Kelly White,(555) 890-1234,kwhite@rugsusa.com,"2120 Powers Ferry Rd SE, Atlanta GA 30339",rugsusa.com,RU-75319,Net 30
+Smith & Noble,Brian Taylor,(555) 901-2345,btaylor@smithandnoble.com,"1801 California St, Corona CA 92881",smithandnoble.com,SN-64208,Net 30
+Local Workroom,Janet Adams,(555) 012-3456,jadams@localworkroom.com,"123 Design Street, Local City ST 12345",localworkroom.com,LW-53197,Net 15</div>
+            </div>
+        </div>
+
+        <div class="formatting-tips">
+            <h4>⚡ Google Sheets Formatting Tips</h4>
+            <ul>
+                <li><strong>Headers:</strong> Select row 1, make it bold, and add a background color (Format → Fill color)</li>
+                <li><strong>Currency:</strong> Select price columns, Format → Number → Currency</li>
+                <li><strong>Freeze Panes:</strong> Select row 2, then View → Freeze → 1 row</li>
+                <li><strong>Conditional Formatting:</strong> Highlight cells based on status or lead times</li>
+                <li><strong>Filters:</strong> Select your data range, then Data → Create a filter</li>
+                <li><strong>Column Width:</strong> Double-click column borders to auto-resize</li>
+            </ul>
+        </div>
+
+        <div class="formula-section">
+            <h4>🧮 Essential Formulas for Google Sheets</h4>
+
+            <p><strong>Room Totals:</strong></p>
+            <div class="formula-code">=SUMIF(A:A,"LIVING ROOM",I:I)</div>
+
+            <p><strong>Category Totals:</strong></p>
+            <div class="formula-code">=SUMIF(B:B,"FURNITURE",I:I)</div>
+
+            <p><strong>Grand Total:</strong></p>
+            <div class="formula-code">=SUM(I:I)</div>
+
+            <p><strong>Item Count by Room:</strong></p>
+            <div class="formula-code">=COUNTIF(A:A,"LIVING ROOM")</div>
+
+            <p><strong>Average Price:</strong></p>
+            <div class="formula-code">=AVERAGE(H:H)</div>
+
+            <p><strong>Status Tracking:</strong></p>
+            <div class="formula-code">=COUNTIF(J:J,"In Stock")</div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId, event) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+
+            navigator.clipboard.writeText(text).then(function() {
+                const successMessage = document.getElementById('successMessage');
+                successMessage.style.display = 'block';
+
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#10b981';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#3b82f6';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Copy failed. Please select the text and copy manually.');
+            });
+        }
+    </script>
+</body>
+</html>
