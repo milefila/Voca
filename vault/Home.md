@@ -7,7 +7,7 @@
 LIST FROM "10-Projects" WHERE status = "active"
 ```
 _Until you install the Dataview plugin, manually list active projects below:_
-- [[Thread an AI - Design Studio OS]]
+- [[Design Thread AI]]
 - [[Skov Haus - STR Investment]]
 
 ## Quick Capture
