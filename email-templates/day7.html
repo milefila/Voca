@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One week in — Design Studio OS</title>
+  <style>
+    body { margin: 0; padding: 0; background: #F5F0E8; font-family: 'Georgia', serif; }
+    .wrapper { max-width: 600px; margin: 0 auto; background: #FAFAF7; }
+    .header { background: #1A1A1A; padding: 40px; text-align: center; }
+    .header-logo { font-family: Georgia, serif; font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; color: #F5F0E8; }
+    .header-logo span { color: #C9A84C; }
+    .gold-rule { width: 40px; height: 1px; background: #C9A84C; margin: 16px auto 0; }
+    .body { padding: 48px 48px 32px; }
+    .eyebrow { font-family: Arial, sans-serif; font-size: 0.68rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: #C9A84C; margin-bottom: 16px; }
+    h1 { font-family: Georgia, serif; font-size: 2rem; font-weight: 400; font-style: italic; color: #1A1A1A; margin: 0 0 24px; line-height: 1.2; }
+    p { font-family: Arial, sans-serif; font-size: 0.95rem; color: #5A5550; line-height: 1.75; margin: 0 0 20px; }
+    .btn { display: inline-block; background: #C9A84C; color: #1A1A1A; font-family: Arial, sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; padding: 14px 32px; margin: 8px 0 24px; }
+    .check-list { list-style: none; padding: 0; margin: 24px 0; }
+    .check-list li { font-family: Arial, sans-serif; font-size: 0.9rem; color: #5A5550; padding: 12px 0; border-bottom: 1px solid #EDE7D8; display: flex; gap: 12px; align-items: flex-start; }
+    .check-list li:last-child { border-bottom: none; }
+    .check-icon { color: #C9A84C; flex-shrink: 0; font-size: 0.8rem; margin-top: 2px; }
+    .no-icon { color: #8A8578; flex-shrink: 0; font-size: 0.8rem; margin-top: 2px; }
+    .divider { width: 100%; height: 1px; background: #EDE7D8; margin: 32px 0; }
+    .footer { background: #1A1A1A; padding: 32px 48px; text-align: center; }
+    .footer p { font-family: Arial, sans-serif; font-size: 0.75rem; color: #5A5550; margin: 0 0 8px; letter-spacing: 0.05em; }
+    .footer a { color: #C9A84C; text-decoration: none; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="header-logo">Design Studio <span>OS</span></div>
+    <div class="gold-rule"></div>
+  </div>
+
+  <div class="body">
+    <p class="eyebrow">Week One</p>
+    <h1>A quick check-in<br>on where you are.</h1>
+
+    <p>Hi {{contact.first_name}},</p>
+
+    <p>You've been enrolled for one week. I want to check in — not to pressure you, but to help you identify exactly where you are and what your next move is.</p>
+
+    <p>Here's the honest progression for week one:</p>
+
+    <ul class="check-list">
+      <li><span class="check-icon">✓</span> Watched Foundations (4 lessons, ~45 min)</li>
+      <li><span class="check-icon">✓</span> Completed Studio Audit</li>
+      <li><span class="check-icon">✓</span> Set up Claude Pro + your first Project</li>
+      <li><span class="check-icon">✓</span> Started Module 1 — wrote your Studio Voice Document</li>
+      <li><span class="no-icon">→</span> <strong style="color: #1A1A1A;">Next: Lessons 1.3 and 1.4 — Client Personas + Thread Templates</strong></li>
+    </ul>
+
+    <p>If you're ahead of this, great — keep going. Module 2 (Client Journey) is where most designers have their first "this changes everything" moment.</p>
+
+    <p>If you're behind, no problem. You have lifetime access. The question isn't whether you finish in six weeks — it's whether the systems you build actually run in your studio. That's a longer game and it's the one worth playing.</p>
+
+    <p>One thing I'll ask: if you're stuck or the course isn't clicking yet, reply to this email and tell me where. This course is designed for working studios and I want to know if something isn't landing.</p>
+
+    <a href="{{course_portal_url}}" class="btn">Continue Where You Left Off →</a>
+
+    <div class="divider"></div>
+
+    <p style="font-size: 0.85rem; font-style: italic;">Reminder: you have a 14-day refund window. If for any reason this isn't right for your studio, reply before day 14 and we'll process a full refund. No forms, no process.</p>
+  </div>
+
+  <div class="footer">
+    <p>Design Studio OS · Scale Your Studio with Claude</p>
+    <p><a href="mailto:hello@designstudioos.com">hello@designstudioos.com</a></p>
+    <p style="margin-top: 16px; font-size: 0.68rem; color: #3A3530;"><a href="{{unsubscribe_link}}">Unsubscribe</a></p>
+  </div>
+
+</div>
+</body>
+</html>
