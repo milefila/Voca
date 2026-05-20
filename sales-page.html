@@ -84,8 +84,7 @@
       background-size: cover;
       background-position: center center;
       background-attachment: fixed;
-      padding: 160px 40px 100px;
-      text-align: center;
+      padding: 120px 40px 80px;
       position: relative;
       overflow: hidden;
     }
@@ -95,9 +94,36 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
-        rgba(26, 26, 26, 0.78);
+        radial-gradient(ellipse 80% 60% at 30% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
+        rgba(26, 26, 26, 0.82);
       pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 345px;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-text {
+      /* text column */
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-visual iframe {
+      display: block;
+      outline: 1px solid rgba(201,168,76,0.25);
+      max-width: 100%;
     }
 
     .hero-eyebrow {
@@ -112,12 +138,11 @@
 
     .hero-headline {
       font-family: var(--f-display);
-      font-size: clamp(3rem, 7vw, 6rem);
+      font-size: clamp(2.8rem, 5vw, 5rem);
       font-weight: 300;
       line-height: 1.05;
       color: var(--cream);
-      max-width: 900px;
-      margin: 0 auto 32px;
+      margin: 0 0 32px;
     }
 
     .hero-headline em {
@@ -129,23 +154,22 @@
       width: 60px;
       height: 1px;
       background: var(--gold);
-      margin: 0 auto 32px;
+      margin: 0 0 32px;
     }
 
     .hero-sub {
       font-family: var(--f-body);
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 300;
       color: #B0A898;
-      max-width: 600px;
-      margin: 0 auto 52px;
+      margin: 0 0 48px;
       line-height: 1.7;
     }
 
     .hero-actions {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 20px;
       flex-wrap: wrap;
     }
@@ -186,7 +210,7 @@
     .btn-ghost:hover { color: var(--cream); border-color: rgba(176,168,152,0.6); }
 
     .hero-proof {
-      margin-top: 64px;
+      margin-top: 48px;
       font-family: var(--f-body);
       font-size: 0.72rem;
       letter-spacing: 0.15em;
@@ -763,7 +787,9 @@
       nav { padding: 0 20px; }
       .nav-logo { font-size: 1rem; }
       section { padding: 72px 20px; }
-      #hero { padding: 120px 20px 72px; }
+      #hero { padding: 100px 20px 60px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { display: none; }
       .for-whom-grid { grid-template-columns: 1fr; gap: 40px; }
       .pricing-grid { grid-template-columns: 1fr; }
       .pricing-card { border-right: none; border-bottom: 1px solid var(--cream-dark); }
@@ -783,19 +809,26 @@
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <p class="hero-eyebrow">A Course for Boutique Interior Design Studios</p>
-  <h1 class="hero-headline">
-    The Studio That <em>Thinks</em><br>While You Design.
-  </h1>
-  <div class="hero-rule"></div>
-  <p class="hero-sub">
-    Stop running your studio on memory, scattered notes, and 11pm emails. Design Studio OS teaches you how to use Claude to build the operating system your business has always needed — in six focused modules.
-  </p>
-  <div class="hero-actions">
-    <a href="#pricing" class="btn-primary">Enroll Now — $197 ↓</a>
-    <a href="#curriculum" class="btn-ghost">See the Curriculum</a>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">A Course for Boutique Interior Design Studios</p>
+      <h1 class="hero-headline">
+        The Studio That <em>Thinks</em><br>While You Design.
+      </h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">
+        Stop running your studio on memory, scattered notes, and 11pm emails. Design Studio OS teaches you how to use Claude to build the operating system your business has always needed — in six focused modules.
+      </p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">Enroll Now — $197 ↓</a>
+        <a href="#curriculum" class="btn-ghost">See the Curriculum</a>
+      </div>
+      <p class="hero-proof">6 Modules · 24 Lessons · Built for Working Studios</p>
+    </div>
+    <div class="hero-visual">
+      <iframe src="https://assets.pinterest.com/ext/embed.html?id=855261785511272414" height="714" width="345" frameborder="0" scrolling="no"></iframe>
+    </div>
   </div>
-  <p class="hero-proof">6 Modules · 24 Lessons · Built for Working Studios</p>
 </section>
 
 <!-- ── PROMISE ── -->
