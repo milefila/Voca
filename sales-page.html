@@ -80,6 +80,9 @@
     /* ── HERO ── */
     #hero {
       background-color: var(--ink);
+      background-image: url('https://assets.cdn.filesafe.space/Ys9CP8XwkIjn9n5rG0VI/media/69c414ceff46705a47cf8b33.png');
+      background-size: cover;
+      background-position: center center;
       min-height: 720px;
       padding: 160px 40px 100px;
       text-align: center;
@@ -96,26 +99,6 @@
         radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
         rgba(26, 26, 26, 0.72);
       pointer-events: none;
-    }
-
-    /* Pinterest iframe scaled to fill hero like background-size: cover */
-    .hero-bg-frame {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transform-origin: center center;
-      z-index: 0;
-      pointer-events: none;
-      width: 345px;
-      height: 714px;
-    }
-
-    .hero-bg-frame iframe {
-      display: block;
-      width: 345px;
-      height: 714px;
-      border: none;
     }
 
     .hero-inner {
@@ -808,9 +791,6 @@
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <div class="hero-bg-frame">
-    <iframe src="https://assets.pinterest.com/ext/embed.html?id=855261785511272414" height="714" width="345" frameborder="0" scrolling="no"></iframe>
-  </div>
   <div class="hero-inner">
     <p class="hero-eyebrow">A Course for Boutique Interior Design Studios</p>
     <h1 class="hero-headline">
@@ -1226,18 +1206,6 @@
   // Open first module by default
   document.querySelector('.module-item')?.classList.add('open');
 
-  // Scale Pinterest iframe to cover full hero (like background-size: cover)
-  function scaleHeroBg() {
-    var hero = document.getElementById('hero');
-    var frame = document.querySelector('.hero-bg-frame');
-    if (!hero || !frame) return;
-    var scaleW = hero.offsetWidth / 345;
-    var scaleH = hero.offsetHeight / 714;
-    var scale = Math.max(scaleW, scaleH) * 1.05;
-    frame.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
-  }
-  scaleHeroBg();
-  window.addEventListener('resize', scaleHeroBg);
 </script>
 
 </body>
