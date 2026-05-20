@@ -80,11 +80,9 @@
     /* ── HERO ── */
     #hero {
       background-color: var(--ink);
-      background-image: url('YOUR_IMAGE_URL_HERE');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
-      padding: 120px 40px 80px;
+      min-height: 720px;
+      padding: 160px 40px 100px;
+      text-align: center;
       position: relative;
       overflow: hidden;
     }
@@ -93,37 +91,38 @@
       content: '';
       position: absolute;
       inset: 0;
+      z-index: 1;
       background:
-        radial-gradient(ellipse 80% 60% at 30% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
-        rgba(26, 26, 26, 0.82);
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        rgba(26, 26, 26, 0.72);
       pointer-events: none;
+    }
+
+    /* Pinterest iframe scaled to fill hero like background-size: cover */
+    .hero-bg-frame {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transform-origin: center center;
+      z-index: 0;
+      pointer-events: none;
+      width: 345px;
+      height: 714px;
+    }
+
+    .hero-bg-frame iframe {
+      display: block;
+      width: 345px;
+      height: 714px;
+      border: none;
     }
 
     .hero-inner {
       position: relative;
-      z-index: 1;
-      max-width: 1100px;
+      z-index: 2;
+      max-width: 800px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 345px;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .hero-text {
-      /* text column */
-    }
-
-    .hero-visual {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .hero-visual iframe {
-      display: block;
-      outline: 1px solid rgba(201,168,76,0.25);
-      max-width: 100%;
     }
 
     .hero-eyebrow {
@@ -138,11 +137,12 @@
 
     .hero-headline {
       font-family: var(--f-display);
-      font-size: clamp(2.8rem, 5vw, 5rem);
+      font-size: clamp(3rem, 7vw, 6rem);
       font-weight: 300;
       line-height: 1.05;
       color: var(--cream);
-      margin: 0 0 32px;
+      max-width: 900px;
+      margin: 0 auto 32px;
     }
 
     .hero-headline em {
@@ -154,22 +154,23 @@
       width: 60px;
       height: 1px;
       background: var(--gold);
-      margin: 0 0 32px;
+      margin: 0 auto 32px;
     }
 
     .hero-sub {
       font-family: var(--f-body);
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 300;
       color: #B0A898;
-      margin: 0 0 48px;
+      max-width: 600px;
+      margin: 0 auto 52px;
       line-height: 1.7;
     }
 
     .hero-actions {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       gap: 20px;
       flex-wrap: wrap;
     }
@@ -787,9 +788,7 @@
       nav { padding: 0 20px; }
       .nav-logo { font-size: 1rem; }
       section { padding: 72px 20px; }
-      #hero { padding: 100px 20px 60px; }
-      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-      .hero-visual { display: none; }
+      #hero { padding: 120px 20px 80px; min-height: 600px; }
       .for-whom-grid { grid-template-columns: 1fr; gap: 40px; }
       .pricing-grid { grid-template-columns: 1fr; }
       .pricing-card { border-right: none; border-bottom: 1px solid var(--cream-dark); }
@@ -809,25 +808,23 @@
 
 <!-- ── HERO ── -->
 <section id="hero">
+  <div class="hero-bg-frame">
+    <iframe src="https://assets.pinterest.com/ext/embed.html?id=855261785511272414" height="714" width="345" frameborder="0" scrolling="no"></iframe>
+  </div>
   <div class="hero-inner">
-    <div class="hero-text">
-      <p class="hero-eyebrow">A Course for Boutique Interior Design Studios</p>
-      <h1 class="hero-headline">
-        The Studio That <em>Thinks</em><br>While You Design.
-      </h1>
-      <div class="hero-rule"></div>
-      <p class="hero-sub">
-        Stop running your studio on memory, scattered notes, and 11pm emails. Design Studio OS teaches you how to use Claude to build the operating system your business has always needed — in six focused modules.
-      </p>
-      <div class="hero-actions">
-        <a href="#pricing" class="btn-primary">Enroll Now — $197 ↓</a>
-        <a href="#curriculum" class="btn-ghost">See the Curriculum</a>
-      </div>
-      <p class="hero-proof">6 Modules · 24 Lessons · Built for Working Studios</p>
+    <p class="hero-eyebrow">A Course for Boutique Interior Design Studios</p>
+    <h1 class="hero-headline">
+      The Studio That <em>Thinks</em><br>While You Design.
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">
+      Stop running your studio on memory, scattered notes, and 11pm emails. Design Studio OS teaches you how to use Claude to build the operating system your business has always needed — in six focused modules.
+    </p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">Enroll Now — $197 ↓</a>
+      <a href="#curriculum" class="btn-ghost">See the Curriculum</a>
     </div>
-    <div class="hero-visual">
-      <iframe src="https://assets.pinterest.com/ext/embed.html?id=855261785511272414" height="714" width="345" frameborder="0" scrolling="no"></iframe>
-    </div>
+    <p class="hero-proof">6 Modules · 24 Lessons · Built for Working Studios</p>
   </div>
 </section>
 
@@ -1228,6 +1225,19 @@
 
   // Open first module by default
   document.querySelector('.module-item')?.classList.add('open');
+
+  // Scale Pinterest iframe to cover full hero (like background-size: cover)
+  function scaleHeroBg() {
+    var hero = document.getElementById('hero');
+    var frame = document.querySelector('.hero-bg-frame');
+    if (!hero || !frame) return;
+    var scaleW = hero.offsetWidth / 345;
+    var scaleH = hero.offsetHeight / 714;
+    var scale = Math.max(scaleW, scaleH) * 1.05;
+    frame.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+  scaleHeroBg();
+  window.addEventListener('resize', scaleHeroBg);
 </script>
 
 </body>
