@@ -79,7 +79,11 @@
 
     /* ── HERO ── */
     #hero {
-      background: var(--ink);
+      background-color: var(--ink);
+      background-image: url('YOUR_IMAGE_URL_HERE');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
       padding: 160px 40px 100px;
       text-align: center;
       position: relative;
@@ -90,7 +94,9 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 70%);
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        rgba(26, 26, 26, 0.78);
       pointer-events: none;
     }
 
