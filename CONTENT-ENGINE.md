@@ -72,6 +72,24 @@ https://links.designthreadstudio.com/widget/form/iaNQ7gCsStliqIMN4yMq
 - Upload directly in Blotato UI → Create Post → Instagram
 - Instagram auth expires periodically — reconnect in Blotato if post fails
 
+**GHL Blog — publish from CLI:**
+```bash
+# First time: discover your blog site ID
+GHL_API_KEY=pit-... GHL_LOCATION_ID=<your-id> ./publish/ghl-blog.sh --discover
+
+# Create as draft (review in GHL before publishing)
+./publish/ghl-blog.sh drafts/newsletter/2026-05-29-issue-08.html
+
+# Create and publish immediately
+./publish/ghl-blog.sh drafts/newsletter/2026-05-29-issue-08.html --publish
+
+# Override the auto-detected title
+./publish/ghl-blog.sh drafts/newsletter/2026-05-29-issue-08.html --title "Four Ways I Use Claude"
+```
+- Env vars: `GHL_API_KEY`, `GHL_LOCATION_ID`, `GHL_BLOG_ID` (set in Claude Code session environment)
+- `GHL_LOCATION_ID` → from your GHL URL: `app.gohighlevel.com/location/<ID>/...`
+- `GHL_BLOG_ID` → run `--discover` once to list your blog sites and copy the ID
+
 ---
 
 ## Newsletter HTML Template
