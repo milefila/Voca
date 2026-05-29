@@ -1,0 +1,27 @@
+{
+  "model": "claude-sonnet-4-6",
+  "advisorModel": "claude-opus-4-8",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[hook] bash: '\"$CLAUDE_TOOL_INPUT_COMMAND\""
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(yt-dlp:*)",
+      "Bash(git:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)"
+    ]
+  }
+}
