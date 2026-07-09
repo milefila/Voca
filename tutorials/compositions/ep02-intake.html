@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family:"Cormorant Garamond"; font-style:italic; font-weight:400; src:url("assets/fonts/cormorant-garamond-italic-400.woff2") format("woff2"); }
+    @font-face { font-family:"Cormorant Garamond"; font-style:italic; font-weight:700; src:url("assets/fonts/cormorant-garamond-italic-700.woff2") format("woff2"); }
+    @font-face { font-family:"Cormorant Garamond"; font-style:normal; font-weight:400; src:url("assets/fonts/cormorant-garamond-normal-400.woff2") format("woff2"); }
+    @font-face { font-family:"Cormorant Garamond"; font-style:normal; font-weight:700; src:url("assets/fonts/cormorant-garamond-normal-700.woff2") format("woff2"); }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#27221F}
+    body{font-family:"Montserrat",sans-serif;color:#FAFAF8}
+    :root{--ink:#27221F;--paper:#FAFAF8;--stone:#DBD1C7;--mist:#BBB1A7;--brass:#B08A4A}
+    #root{position:relative;width:1920px;height:1080px;background:var(--ink);overflow:hidden}
+    .serif{font-family:"Cormorant Garamond","Playfair Display",serif}
+    .mono{font-family:"IBM Plex Mono","Courier New",monospace}
+    .beat-card{position:absolute;inset:0;background:var(--ink);overflow:hidden}
+    .beat-card .glow{position:absolute;width:1300px;height:1300px;left:50%;top:-44%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(176,138,74,.18) 0%,rgba(176,138,74,.06) 40%,rgba(176,138,74,0) 70%)}
+    .beat-card .grain{position:absolute;inset:0;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+    .beat-card .ghost{position:absolute;right:-.05em;bottom:-.12em;font-size:440px;font-weight:700;letter-spacing:.02em;color:rgba(219,209,199,.065);line-height:1;white-space:nowrap;pointer-events:none;user-select:none}
+    .beat-card .big-num{position:absolute;left:-.03em;top:-.06em;font-size:680px;font-weight:700;color:rgba(219,209,199,.05);line-height:1;pointer-events:none;user-select:none}
+    .beat-card .frame{position:absolute;inset:54px;border:2px solid rgba(176,138,74,.32);pointer-events:none}
+    .beat-card .corner{position:absolute;width:26px;height:26px;border:2px solid var(--brass)}
+    .beat-card .corner.tl{top:44px;left:44px;border-right:none;border-bottom:none}
+    .beat-card .corner.tr{top:44px;right:44px;border-left:none;border-bottom:none}
+    .beat-card .corner.bl{bottom:44px;left:44px;border-right:none;border-top:none}
+    .beat-card .corner.br{bottom:44px;right:44px;border-left:none;border-top:none}
+    .beat-card .card-body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 200px;text-align:center}
+    .beat-card .index{font-size:18px;letter-spacing:.38em;color:var(--stone);margin-bottom:28px}
+    .beat-card .index b{color:var(--brass);font-weight:400}
+    .beat-card .rule{width:230px;height:2px;background:var(--brass);margin-bottom:34px;transform-origin:center center}
+    .beat-card h2{font-size:116px;line-height:1.05;font-weight:700;color:var(--paper);max-width:1380px;text-align:center;text-shadow:0 2px 36px rgba(20,16,13,.4)}
+    .beat-card .sub{margin-top:26px;font-size:30px;font-weight:400;letter-spacing:.04em;color:var(--stone);max-width:1100px;text-align:center;text-shadow:0 1px 20px rgba(20,16,13,.5)}
+    .beat-image{position:absolute;inset:0;background:var(--ink);overflow:hidden}
+    .beat-image .kb{position:absolute;inset:-6%;will-change:transform}
+    .beat-image .kb img{width:100%;height:100%;object-fit:cover;display:block}
+    .beat-image .vignette{position:absolute;inset:0;background:radial-gradient(ellipse 130% 110% at 50% 42%,rgba(39,34,31,0) 55%,rgba(39,34,31,.5) 100%)}
+    .beat-image .grain{position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+    .beat-image .meta-tl{position:absolute;top:74px;left:110px;font-size:18px;letter-spacing:.3em;color:var(--stone);text-shadow:0 1px 14px rgba(20,16,13,.7)}
+    .beat-image .meta-tr{position:absolute;top:74px;right:110px;font-size:18px;letter-spacing:.3em;color:var(--stone);text-shadow:0 1px 14px rgba(20,16,13,.7);text-align:right}
+    .tick-l,.tick-r{position:absolute;top:108px;width:54px;height:2px;background:var(--brass);opacity:.85}
+    .tick-l{left:110px;transform-origin:left center}
+    .tick-r{right:110px;transform-origin:right center}
+    .card{position:absolute;inset:0;background:var(--ink);overflow:hidden;z-index:200}
+    .card .glow{position:absolute;width:1500px;height:1500px;left:62%;top:-46%;border-radius:50%;background:radial-gradient(circle,rgba(176,138,74,.24) 0%,rgba(176,138,74,.07) 42%,rgba(176,138,74,0) 70%)}
+    .card .ghost{position:absolute;right:-60px;bottom:-140px;font-size:560px;font-weight:700;letter-spacing:.02em;color:rgba(219,209,199,.07);line-height:1;white-space:nowrap}
+    .card .frame{position:absolute;inset:54px;border:2px solid rgba(176,138,74,.4)}
+    .card .corner{position:absolute;width:26px;height:26px;border:2px solid var(--brass)}
+    .card .corner.tl{top:44px;left:44px;border-right:none;border-bottom:none}
+    .card .corner.tr{top:44px;right:44px;border-left:none;border-bottom:none}
+    .card .corner.bl{bottom:44px;left:44px;border-right:none;border-top:none}
+    .card .corner.br{bottom:44px;right:44px;border-left:none;border-top:none}
+    .card-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:140px 170px}
+    .card .kicker{font-size:21px;letter-spacing:.42em;color:var(--brass);margin-bottom:34px}
+    .card h1{font-size:136px;line-height:1.0;font-weight:700;color:var(--paper);max-width:1300px}
+    .card h1 em{font-style:italic;color:var(--stone)}
+    .card .card-rule{width:300px;height:2px;background:var(--brass);margin:44px 0 36px;transform-origin:left center}
+    .card .card-sub{font-size:27px;font-weight:400;letter-spacing:.24em;color:var(--stone)}
+    .card .specs{position:absolute;left:170px;bottom:118px;font-size:20px;letter-spacing:.3em;color:var(--mist)}
+    .card .specs b{color:var(--brass);font-weight:400}
+    #closing h1{font-size:108px;max-width:1450px}
+    #closing .after{margin-top:30px;font-size:46px;font-weight:400;font-style:italic;color:var(--stone);font-family:"Cormorant Garamond","Playfair Display",serif}
+    #closing .credit{position:absolute;left:170px;bottom:118px;font-size:20px;letter-spacing:.34em;color:var(--mist)}
+  </style>
+</head>
+<body>
+<div id="root"
+  data-composition-id="ds-os-ep02"
+  data-start="0"
+  data-duration="70"
+  data-width="1920"
+  data-height="1080">
+
+  <audio id="underscore" class="clip"
+    src="assets/bgm/track.wav"
+    data-start="0" data-duration="70"
+    data-track-index="4" data-volume="0.85"></audio>
+
+  <div id="title" class="clip card"
+    data-start="0" data-duration="6" data-track-index="3">
+    <div class="glow" data-layout-allow-overflow></div>
+    <div class="ghost serif" data-layout-allow-overflow>INTAKE</div>
+    <div class="frame"></div>
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <div class="card-content">
+      <div class="kicker mono">TUTORIAL 02 &middot; DESIGN STUDIO OS</div>
+      <h1 class="serif">The AI Client<br /><em>Intake System</em></h1>
+      <div class="card-rule"></div>
+      <div class="card-sub mono">AI IMPLEMENTATION SERIES &middot; DESIGN THREAD AI</div>
+    </div>
+    <div class="specs mono">TUTORIAL 02 OF 06 <b>&middot;</b> 16:9 MASTER</div>
+  </div>
+
+  <div id="beats-host"></div>
+
+  <div id="closing" class="clip card"
+    data-start="62" data-duration="8" data-track-index="3">
+    <div class="glow" data-layout-allow-overflow></div>
+    <div class="ghost serif" data-layout-allow-overflow>BRIEF</div>
+    <div class="frame"></div>
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <div class="card-content">
+      <h1 class="serif">You're already prepared.</h1>
+      <div class="after">Before you pick up the phone.</div>
+      <div class="card-rule"></div>
+    </div>
+    <div class="credit mono">MICHELLE FIALLO <span style="color:var(--brass)">&middot;</span> DESIGN THREAD AI</div>
+  </div>
+</div>
+
+<script>
+const BEATS = [
+  { type:'card', ghost:'CALLS',  num:'01', headline:'A 45-minute\ndiscovery call.\nThen an hour of cleanup.', sub:'Two hours before you\'ve started the project.' },
+  { type:'card', ghost:'FORM',   num:'02', headline:'Eight questions.\nSent before\nthe call.', sub:'Everything you need to generate a creative brief.' },
+  { type:'image', img:'cedar-ridge-03', meta:'CEDAR RIDGE RETREAT' },
+  { type:'card', ghost:'BRIEF',  num:'03', headline:'AI reads\nthe answers.\nReturns a structured brief.', sub:'You show up knowing. Not starting from zero — refining.' },
+  { type:'card', ghost:'ASK',    num:'04', headline:'Three questions\nto fill\nthe gaps.', sub:'Generated from the brief. Your discovery call is already prepared.' },
+  { type:'card', ghost:'SEND',   num:'05', headline:'Send the form\nbefore you\nschedule the call.', sub:'That\'s the action step. Everything else follows.' },
+];
+
+const BEAT_DUR=9,STRIDE=8,FIRST=5;
+const KB=[[1.0,1.1,0,-2.2,0,-1.2],[1.12,1.0,-2.0,0,1.0,0],[1.08,1.08,2.2,-2.2,0,0],[1.0,1.12,0,1.8,0,1.4]];
+const cardCount=BEATS.filter(b=>b.type==='card').length;
+const host=document.getElementById('beats-host');
+BEATS.forEach((beat,i)=>{
+  const start=FIRST+i*STRIDE;
+  const el=document.createElement('div');
+  el.id='b'+i;el.className='clip '+(beat.type==='image'?'beat-image':'beat-card');
+  el.dataset.start=String(start);el.dataset.duration=String(BEAT_DUR);
+  el.dataset.trackIndex=String((i%2)+1);el.style.zIndex=String(11+i);
+  if(beat.type==='card'){
+    el.innerHTML=`<div class="glow" data-layout-allow-overflow></div><div class="grain"></div><div class="ghost serif" data-layout-allow-overflow>${beat.ghost}</div><div class="big-num mono" data-layout-allow-overflow>${beat.num}</div><div class="frame"></div><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div><div class="card-body"><div class="index mono">N&deg;&thinsp;${beat.num} <b>/</b> ${String(cardCount).padStart(2,'0')}</div><div class="rule"></div><h2 class="serif">${beat.headline.replace(/\n/g,'<br>')}</h2><p class="sub">${beat.sub.replace(/\n/g,'<br>')}</p></div>`;
+  } else {
+    const[s0,s1,x0,x1,y0,y1]=KB[i%KB.length];
+    el.innerHTML=`<div class="kb" data-layout-allow-overflow><img src="assets/stills/${beat.img}.png" alt=""></div><div class="vignette"></div><div class="grain"></div><div class="meta-tl mono" data-layout-allow-overlap>${beat.meta} <span style="color:var(--brass)">&middot;</span> DESIGN THREAD AI</div><div class="meta-tr mono" data-layout-allow-overlap>info@designthreadstudio.com</div><div class="tick-l"></div><div class="tick-r"></div>`;
+  }
+  host.appendChild(el);
+});
+window.__timelines=window.__timelines||{};
+const tl=gsap.timeline({paused:true});
+tl.fromTo('#title .glow',{scale:.85,opacity:0},{scale:1,opacity:1,duration:1.6,ease:'power2.out'},0).fromTo('#title .glow',{scale:1},{scale:1.08,duration:4,ease:'sine.inOut'},1.6).fromTo('#title .ghost',{x:80,opacity:0},{x:0,opacity:1,duration:2.2,ease:'power3.out'},0.2).fromTo('#title .frame',{opacity:0},{opacity:1,duration:1.2,ease:'power1.inOut'},0.3).fromTo('#title .corner',{opacity:0,scale:.4},{opacity:1,scale:1,duration:.6,ease:'back.out(2)',stagger:.08},0.5).fromTo('#title .kicker',{y:-24,opacity:0},{y:0,opacity:1,duration:.7,ease:'power2.out'},0.6).fromTo('#title h1',{y:60,opacity:0},{y:0,opacity:1,duration:1.1,ease:'power3.out'},0.85).fromTo('#title .card-rule',{scaleX:0},{scaleX:1,duration:.9,ease:'power2.inOut'},1.4).fromTo('#title .card-sub',{x:-40,opacity:0},{x:0,opacity:1,duration:.8,ease:'power2.out'},1.7).fromTo('#title .specs',{opacity:0},{opacity:1,duration:.8,ease:'power1.inOut'},2.1).fromTo('#title',{opacity:1},{opacity:0,duration:1.0,ease:'power2.inOut'},5.0);
+BEATS.forEach((beat,i)=>{
+  const t=FIRST+i*STRIDE,id='#b'+i;
+  const[s0,s1,x0,x1,y0,y1]=KB[i%KB.length];
+  tl.fromTo(id,{opacity:0},{opacity:1,duration:1.0,ease:'power1.inOut'},t);
+  if(beat.type==='card'){
+    tl.fromTo(id+' .glow',{scale:.8,opacity:0},{scale:1,opacity:1,duration:1.4,ease:'power2.out'},t+.2).fromTo(id+' .glow',{scale:1},{scale:1.1,duration:BEAT_DUR-1,ease:'sine.inOut'},t+1.4).fromTo(id+' .ghost',{x:60,opacity:0},{x:0,opacity:1,duration:2.0,ease:'power3.out'},t+.3).fromTo(id+' .big-num',{opacity:0},{opacity:1,duration:1.8,ease:'power2.out'},t+.4).fromTo(id+' .frame',{opacity:0},{opacity:1,duration:1.0,ease:'power1.inOut'},t+.4).fromTo(id+' .corner',{opacity:0,scale:.4},{opacity:1,scale:1,duration:.5,ease:'back.out(2)',stagger:.07},t+.55).fromTo(id+' .index',{y:-20,opacity:0},{y:0,opacity:1,duration:.6,ease:'power2.out'},t+.7).fromTo(id+' .rule',{scaleX:0},{scaleX:1,duration:.8,ease:'power2.inOut'},t+.9).fromTo(id+' h2',{y:54,opacity:0},{y:0,opacity:1,duration:1.0,ease:'power3.out'},t+1.2).fromTo(id+' .sub',{y:28,opacity:0},{y:0,opacity:1,duration:.85,ease:'power2.out'},t+1.6);
+    if(i<BEATS.length-1)tl.fromTo(id+' .card-body',{opacity:1},{opacity:0,duration:.7,ease:'power1.in'},t+BEAT_DUR-1.1);
+  } else {
+    tl.fromTo(id+' .kb',{scale:s0,xPercent:x0,yPercent:y0},{scale:s1,xPercent:x1,yPercent:y1,duration:BEAT_DUR,ease:'none'},t).fromTo(id+' .meta-tl',{y:-16,opacity:0},{y:0,opacity:1,duration:.6,ease:'power2.out'},t+.7).fromTo(id+' .meta-tr',{y:-16,opacity:0},{y:0,opacity:1,duration:.6,ease:'power2.out'},t+.85).fromTo(id+' .tick-l',{scaleX:0},{scaleX:1,duration:.5,ease:'power2.inOut'},t+.9).fromTo(id+' .tick-r',{scaleX:0},{scaleX:1,duration:.5,ease:'power2.inOut'},t+.9).fromTo(id+' .vignette',{opacity:.8},{opacity:1,duration:BEAT_DUR/2,ease:'sine.inOut',yoyo:true,repeat:1},t);
+  }
+});
+const C=62;
+tl.fromTo('#closing',{opacity:0},{opacity:1,duration:1.0,ease:'power1.inOut'},C).fromTo('#closing .glow',{scale:.85,opacity:0},{scale:1.06,opacity:1,duration:4.5,ease:'sine.out'},C+.2).fromTo('#closing .ghost',{x:80,opacity:0},{x:0,opacity:1,duration:2.4,ease:'power3.out'},C+.3).fromTo('#closing .frame',{opacity:0},{opacity:1,duration:1.2,ease:'power1.inOut'},C+.4).fromTo('#closing .corner',{opacity:0,scale:.4},{opacity:1,scale:1,duration:.6,ease:'back.out(2)',stagger:.08},C+.6).fromTo('#closing h1',{y:54,opacity:0},{y:0,opacity:1,duration:1.1,ease:'power3.out'},C+.8).fromTo('#closing .after',{y:30,opacity:0},{y:0,opacity:1,duration:1.0,ease:'power2.out'},C+1.5).fromTo('#closing .card-rule',{scaleX:0},{scaleX:1,duration:.9,ease:'power2.inOut'},C+2.0).fromTo('#closing .credit',{opacity:0},{opacity:1,duration:.9,ease:'power1.inOut'},C+2.5);
+window.__timelines['main']=tl;
+</script>
+</body>
+</html>
